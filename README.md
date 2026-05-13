@@ -1,10 +1,21 @@
 # Toyota Test — Hands-on Project Assessment
 
 ## Tech Stack
+
 - Laravel 12 + Filament v4 + Livewire v3 + Tailwind CSS v4
 - MariaDB 10.11.16
 - Laravel Reverb (WebSocket Broadcast)
 - Cloudflare Tunnel
+
+---
+
+## Requirements
+
+- PHP 8.3+
+- Composer
+- Node.js 20+
+- MariaDB 10.11+ หรือ MySQL 8.4+
+- Laragon (optional)
 
 ---
 
@@ -16,6 +27,7 @@ npm install
 npm run build
 cp .env.example .env
 php artisan key:generate
+php artisan storage:link
 ```
 
 ตั้งค่า Database ใน `.env`
@@ -32,10 +44,35 @@ DB_PASSWORD=
 จากนั้นรัน:
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
 > หาก database `toyota_test` ยังไม่มี Laravel จะถามเพื่อสร้างให้อัตโนมัติ
+> Seeder จะสร้างบัญชีและข้อมูลตัวอย่างสำหรับทดสอบอัตโนมัติ
+
+---
+
+## Reverb Configuration
+
+เพิ่มค่าใน `.env`
+
+```env
+BROADCAST_CONNECTION=reverb
+
+REVERB_APP_ID=your-app-id
+REVERB_APP_KEY=your-app-key
+REVERB_APP_SECRET=your-app-secret
+REVERB_HOST="127.0.0.1"
+REVERB_PORT=8080
+REVERB_SCHEME=http
+
+VITE_REVERB_APP_KEY="${REVERB_APP_KEY}"
+VITE_REVERB_HOST="${REVERB_HOST}"
+VITE_REVERB_PORT="${REVERB_PORT}"
+VITE_REVERB_SCHEME="${REVERB_SCHEME}"
+```
+
+---
 
 ## Run Development Server
 
@@ -64,9 +101,37 @@ http://toyota-test.test
 http://127.0.0.1:8000
 ```
 
+---
+
+## Cloudflare Tunnel (Remote Access)
+
+สามารถเข้าทดสอบระบบจากภายนอกผ่าน Cloudflare Tunnel ได้
+
+เปิด terminal ใหม่แล้วรัน:
+
+```bash
+C:\laragon\bin\cloudflared.exe tunnel --url http://127.0.0.1:8000
+```
+
+เมื่อรันสำเร็จ จะได้ URL รูปแบบ:
+
+```text
+https://xxxxx.trycloudflare.com
+```
+
+ใช้ URL นี้สำหรับเข้าทดสอบระบบจากภายนอกเครื่อง developer
+
+> URL จะเปลี่ยนใหม่ทุกครั้งที่ restart tunnel
+
+---
+
 ## เข้าใช้งาน
 
-URL: `http://localhost:8000/admin`
+- Local URL: `http://127.0.0.1:8000/admin`
+- Laragon URL: `http://toyota-test.test/admin`
+- Cloudflare Tunnel URL: `https://xxxxx.trycloudflare.com/admin`
+
+Seeder จะสร้าง user สำหรับทดสอบดังนี้:
 
 | Name | Email | Password |
 |------|-------|----------|
@@ -83,6 +148,24 @@ URL: `http://localhost:8000/admin`
 - Broadcast Notification real-time ผ่าน Laravel Reverb
 - บันทึก Notification ลง Database
 - Approval Chain Database Design (ER Diagram + Data Dictionary)
+
+---
+
+## Design Decisions
+
+- ใช้ Soft Delete สำหรับ `car_models` เพื่อรองรับ audit และการกู้คืนข้อมูล
+- ใช้ `approval_histories` เป็น immutable audit log ห้าม UPDATE และ DELETE
+- Approval workflow รองรับ dynamic step ตามช่วงยอดเงิน
+- ใช้ Laravel Reverb สำหรับ realtime notification แบบ WebSocket
+- ใช้ Filament v4 เพื่อเร่งการพัฒนา admin panel
+
+---
+
+## Known Limitations
+
+- Cloudflare Tunnel URL จะเปลี่ยนใหม่ทุกครั้งที่ restart
+- Reverb ใช้งานแบบ local development configuration
+- Approval workflow เป็น database design prototype ยังไม่ได้ implement full business flow
 
 ---
 
