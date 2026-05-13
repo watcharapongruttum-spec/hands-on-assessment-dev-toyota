@@ -2,7 +2,7 @@
 
 ## Tech Stack
 - Laravel 12 + Filament v4 + Livewire v3 + Tailwind CSS v4
-- SQLite (ใช้แทน MariaDB สำหรับ development)
+- MariaDB / MySQL 8.4
 - Laravel Reverb (WebSocket Broadcast)
 - Cloudflare Tunnel
 
@@ -14,12 +14,28 @@ npm install
 npm run build
 cp .env.example .env
 php artisan key:generate
+```
+
+สร้าง database ชื่อ `toyota_test` ใน MySQL/MariaDB แล้วตั้งค่าใน `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=toyota_test
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+จากนั้นรัน:
+
+```bash
 php artisan migrate --seed
 ```
 
 ## รัน Development Server
 
-เปิด 3 terminal แยกกันครับ:
+เปิด 3 terminal แยกกัน:
 
 ```bash
 # Terminal 1
