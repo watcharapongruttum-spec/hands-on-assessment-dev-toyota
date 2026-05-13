@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ER Diagram — Toyota Approval Chain</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f172a; font-family: 'Courier New', monospace; color: #e2e8f0; padding: 32px; }
+  h1 { text-align: center; font-size: 20px; color: #38bdf8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .subtitle { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 40px; letter-spacing: 1px; }
+
+  .canvas { position: relative; width: 1400px; margin: 0 auto; }
+
+  /* TABLE CARD */
+  .tbl {
+    position: absolute;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    min-width: 210px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  .tbl-head {
+    background: #0f4c75;
+    border-radius: 7px 7px 0 0;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #38bdf8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tbl-head.green  { background: #064e3b; color: #34d399; }
+  .tbl-head.purple { background: #3b0764; color: #c084fc; }
+  .tbl-head.orange { background: #431407; color: #fb923c; }
+  .tbl-head.pink   { background: #500724; color: #f472b6; }
+  .tbl-head.yellow { background: #422006; color: #fbbf24; }
+  .tbl-head.gray   { background: #1e293b; color: #94a3b8; border-bottom: 1px solid #334155; }
+
+  .tbl-body { padding: 6px 0; }
+  .tbl-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 12px;
+    font-size: 11px;
+    gap: 8px;
+    border-bottom: 1px solid #1e293b;
+  }
+  .tbl-row:last-child { border-bottom: none; }
+  .tbl-row:hover { background: #334155; }
+  .col-name { flex: 1; color: #e2e8f0; }
+  .col-type { color: #64748b; font-size: 10px; min-width: 90px; }
+  .badge {
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+  }
+  .pk  { background: #fbbf24; color: #000; }
+  .fk  { background: #60a5fa; color: #000; }
+  .uq  { background: #34d399; color: #000; }
+
+  /* SVG overlay for relationships */
+  svg.lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .rel-line { stroke: #334155; stroke-width: 1.5; fill: none; }
+  .rel-line.solid   { stroke: #60a5fa; }
+  .rel-line.dashed  { stroke: #475569; stroke-dasharray: 4 3; }
+
+  /* LEGEND */
+  .legend {
+    display: flex; gap: 24px; justify-content: center;
+    margin-top: 32px; font-size: 11px; color: #64748b;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-line { width: 30px; height: 2px; }
+  .legend-line.solid  { background: #60a5fa; }
+  .legend-line.dashed { background: #475569; border-top: 2px dashed #475569; height: 0; }
+</style>
+</head>
+<body>
+<h1>ER Diagram — Approval Chain System</h1>
+<p class="subtitle">Toyota Hands-on Project Assessment · Part 1: Database Design</p>
+
+<div class="canvas" style="height:920px;">
+
+  <!-- SVG relationship lines -->
+  <svg class="lines" id="svgLines"></svg>
+
+  <!-- branches -->
+  <div class="tbl" id="branches" style="left:20px;top:20px;">
+    <div class="tbl-head green">branches</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge uq">UQ</span><span class="col-name">code</span><span class="col-type">varchar(50)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">name</span><span class="col-type">varchar(100)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">is_active</span><span class="col-type">tinyint(1)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_types -->
+  <div class="tbl" id="approval_types" style="left:20px;top:230px;">
+    <div class="tbl-head green">approval_types</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge uq">UQ</span><span class="col-name">code</span><span class="col-type">varchar(50)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">name</span><span class="col-type">varchar(100)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">description</span><span class="col-type">text</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">is_active</span><span class="col-type">tinyint(1)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- users -->
+  <div class="tbl" id="users" style="left:20px;top:490px;">
+    <div class="tbl-head gray">users</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">name</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span class="badge uq">UQ</span><span class="col-name">email</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">password</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_workflows -->
+  <div class="tbl" id="approval_workflows" style="left:310px;top:80px;">
+    <div class="tbl-head">approval_workflows</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_type_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">branch_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">name</span><span class="col-type">varchar(100)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">started_at</span><span class="col-type">date</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">ended_at</span><span class="col-type">date</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">is_active</span><span class="col-type">tinyint(1)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_workflow_conditions -->
+  <div class="tbl" id="approval_workflow_conditions" style="left:310px;top:380px;">
+    <div class="tbl-head purple">approval_workflow_conditions</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_workflow_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">min_amount</span><span class="col-type">decimal(15,2)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">max_amount</span><span class="col-type">decimal(15,2)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">required_steps</span><span class="col-type">tinyint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_steps -->
+  <div class="tbl" id="approval_steps" style="left:310px;top:590px;">
+    <div class="tbl-head orange">approval_steps</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_workflow_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">step_order</span><span class="col-type">tinyint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approver_id → users</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">label</span><span class="col-type">varchar(100)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_requests -->
+  <div class="tbl" id="approval_requests" style="left:680px;top:40px;">
+    <div class="tbl-head">approval_requests</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge uq">UQ</span><span class="col-name">code</span><span class="col-type">varchar(50)</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_type_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_workflow_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">requester_id → users</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">amount</span><span class="col-type">decimal(15,2)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">status</span><span class="col-type">enum(pending…)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">title</span><span class="col-type">varchar(200)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">description</span><span class="col-type">text</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">current_step</span><span class="col-type">tinyint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">submitted_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">completed_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_request_steps -->
+  <div class="tbl" id="approval_request_steps" style="left:680px;top:430px;">
+    <div class="tbl-head pink">approval_request_steps</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_request_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">step_order</span><span class="col-type">tinyint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approver_id → users</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">status</span><span class="col-type">enum(pending…)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">rejection_reason</span><span class="col-type">text</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">actioned_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- approval_histories -->
+  <div class="tbl" id="approval_histories" style="left:680px;top:710px;">
+    <div class="tbl-head yellow">approval_histories ⛔ Immutable</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_request_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">approval_request_step_id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge fk">FK</span><span class="col-name">actor_id → users</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">action</span><span class="col-type">varchar(50)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">step_order</span><span class="col-type">tinyint unsigned</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">rejection_reason</span><span class="col-type">text</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">note</span><span class="col-type">text</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">actioned_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+  <!-- car_models -->
+  <div class="tbl" id="car_models" style="left:1100px;top:40px;">
+    <div class="tbl-head green">car_models</div>
+    <div class="tbl-body">
+      <div class="tbl-row"><span class="badge pk">PK</span><span class="col-name">id</span><span class="col-type">bigint unsigned</span></div>
+      <div class="tbl-row"><span class="badge uq">UQ</span><span class="col-name">code</span><span class="col-type">varchar(255) CM-XXXX</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">brand</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">name</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">year</span><span class="col-type">int</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">body_type</span><span class="col-type">enum(Sedan…)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">base_price</span><span class="col-type">decimal(12,2)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">is_active</span><span class="col-type">tinyint(1)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">deletion_reason</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">deletion_detail</span><span class="col-type">varchar(255)</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">deleted_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">created_at</span><span class="col-type">timestamp</span></div>
+      <div class="tbl-row"><span style="width:24px"></span><span class="col-name">updated_at</span><span class="col-type">timestamp</span></div>
+    </div>
+  </div>
+
+</div><!-- end canvas -->
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-line solid"></div> FK Relationship</div>
+  <div class="legend-item"><span class="badge pk">PK</span> Primary Key</div>
+  <div class="legend-item"><span class="badge fk">FK</span> Foreign Key</div>
+  <div class="legend-item"><span class="badge uq">UQ</span> Unique</div>
+  <div class="legend-item" style="color:#fbbf24">⛔ Immutable = ห้าม UPDATE / DELETE</div>
+</div>
+
+<script>
+// Draw SVG lines between tables
+const svg = document.getElementById('svgLines');
+const canvas = svg.parentElement;
+
+function getCenter(el, side) {
+  const r = el.getBoundingClientRect();
+  const cr = canvas.getBoundingClientRect();
+  if (side === 'right') return { x: r.right - cr.left, y: (r.top + r.bottom) / 2 - cr.top };
+  if (side === 'left')  return { x: r.left  - cr.left, y: (r.top + r.bottom) / 2 - cr.top };
+  if (side === 'bottom'){ return { x: (r.left + r.right) / 2 - cr.left, y: r.bottom - cr.top }; }
+  if (side === 'top')   { return { x: (r.left + r.right) / 2 - cr.left, y: r.top - cr.top }; }
+}
+
+function drawLine(fromId, fromSide, toId, toSide, dashed) {
+  const fromEl = document.getElementById(fromId);
+  const toEl   = document.getElementById(toId);
+  if (!fromEl || !toEl) return;
+  const f = getCenter(fromEl, fromSide);
+  const t = getCenter(toEl, toSide);
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const mx = (f.x + t.x) / 2;
+  path.setAttribute('d', `M${f.x},${f.y} C${mx},${f.y} ${mx},${t.y} ${t.x},${t.y}`);
+  path.setAttribute('class', 'rel-line' + (dashed ? ' dashed' : ' solid'));
+  svg.appendChild(path);
+}
+
+window.addEventListener('load', () => {
+  drawLine('branches',        'right', 'approval_workflows',  'left');
+  drawLine('approval_types',  'right', 'approval_workflows',  'left');
+  drawLine('approval_types',  'right', 'approval_requests',   'left');
+  drawLine('approval_workflows', 'right', 'approval_requests', 'left');
+  drawLine('approval_workflows', 'bottom', 'approval_workflow_conditions', 'top');
+  drawLine('approval_workflows', 'bottom', 'approval_steps', 'top');
+  drawLine('users', 'right', 'approval_steps', 'left');
+  drawLine('users', 'right', 'approval_requests', 'left');
+  drawLine('users', 'right', 'approval_request_steps', 'left');
+  drawLine('users', 'right', 'approval_histories', 'left');
+  drawLine('approval_requests', 'bottom', 'approval_request_steps', 'top');
+  drawLine('approval_request_steps', 'bottom', 'approval_histories', 'top');
+  drawLine('approval_requests', 'bottom', 'approval_histories', 'top');
+});
+</script>
+</body>
+</html>
