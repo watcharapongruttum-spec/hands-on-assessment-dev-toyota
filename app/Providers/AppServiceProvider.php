@@ -17,8 +17,13 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
+public function boot(): void
+{
+    \URL::forceScheme('https');
+
+    \Filament\Support\Facades\FilamentView::registerRenderHook(
+        \Filament\View\PanelsRenderHook::BODY_END,
+        fn(): string => \Illuminate\Support\Facades\Blade::render("@livewire('car-model.delete-modal')"),
+    );
+}
 }
