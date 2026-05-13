@@ -43,6 +43,8 @@ class DeleteModal extends Component
         $this->showStep2 = true;
     }
 
+
+
     public function confirmDelete(): void
     {
         $this->carModel->update([
@@ -55,12 +57,30 @@ class DeleteModal extends Component
 
         event(new CarModelDeleted($this->carModel, $user));
 
-        $notification = new CarModelDeletedNotification($this->carModel, $user);
-        User::all()->each(fn($u) => $u->notify($notification));
+        $body = "{$user->name} ได้ลบรุ่นรถ {$this->carModel->brand} {$this->carModel->name} ({$this->carModel->code})";
 
+        $allUsers = User::all();
+
+        // บันทึก DB ทุก user
+        $notification = new CarModelDeletedNotification($this->carModel, $user);
+        $allUsers->each(fn($u) => $u->notify($notification));
+
+        // Broadcast Filament notification ไปทุก user ที่ online (ยกเว้นคนที่กดลบ)
+        $broadcastNotif = Notification::make()
+            ->title('มีการลบรุ่นรถ')
+            ->body($body)
+            ->warning();
+
+        $allUsers->each(function ($u) use ($broadcastNotif, $user) {
+            if ($u->id !== $user->id) {
+                $broadcastNotif->broadcast($u);
+            }
+        });
+
+        // Flash ให้คนที่กดลบ
         Notification::make()
             ->title('ลบรุ่นรถสำเร็จ')
-            ->body("{$user->name} ได้ลบรุ่นรถ {$this->carModel->brand} {$this->carModel->name} ({$this->carModel->code})")
+            ->body($body)
             ->success()
             ->send();
 
@@ -68,6 +88,17 @@ class DeleteModal extends Component
         $this->carModel = null;
         $this->js('window.location.reload()');
     }
+
+
+
+
+
+
+
+
+
+
+
 
     public function cancel(): void
     {
