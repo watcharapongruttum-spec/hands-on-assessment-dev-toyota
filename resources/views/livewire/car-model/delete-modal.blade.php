@@ -9,8 +9,11 @@
                 @if($carModel)
                 <p style="font-size:0.875rem;color:#6b7280;margin-top:0.25rem;">รุ่น {{ $carModel->brand }} {{ $carModel->name }} ({{ $carModel->code }})</p>
                 @endif
+
                 <div style="margin-top:1rem;">
-                    <label style="display:block;font-size:0.875rem;font-weight:500;color:#374151;margin-bottom:0.25rem;">เหตุผลการลบ <span style="color:red;">*</span></label>
+                    <label style="display:block;font-size:0.875rem;font-weight:500;color:#374151;margin-bottom:0.25rem;">
+                        เหตุผลการลบ <span style="color:red;">*</span>
+                    </label>
                     <select wire:model.live="deletionReason" style="width:100%;padding:0.5rem 0.75rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;background:white;color:#111;appearance:auto;height:2.5rem;">
                         <option value="">-- เลือกเหตุผล --</option>
                         <option value="ยกเลิกการผลิต">ยกเลิกการผลิต</option>
@@ -20,18 +23,22 @@
                     </select>
                     @error('deletionReason') <p style="color:red;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p> @enderror
                 </div>
-                @if($deletionReason === 'อื่นๆ')
+
                 <div style="margin-top:1rem;">
-                    <label style="display:block;font-size:0.875rem;font-weight:500;color:#374151;margin-bottom:0.25rem;">รายละเอียดเพิ่มเติม <span style="color:red;">*</span></label>
-                    <textarea wire:model="deletionDetail" rows="3" style="width:100%;padding:0.5rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;" placeholder="ระบุรายละเอียด..."></textarea>
+                    <label style="display:block;font-size:0.875rem;font-weight:500;color:#374151;margin-bottom:0.25rem;">
+                        รายละเอียดเพิ่มเติม
+                        @if($deletionReason === 'อื่นๆ') <span style="color:red;">*</span> @endif
+                    </label>
+<textarea wire:model="deletionDetail" rows="3"
+    style="width:100%;padding:0.5rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;resize:vertical;color:#111;background:white;"
+    placeholder="ระบุรายละเอียดเพิ่มเติม..."></textarea>
                     @error('deletionDetail') <p style="color:red;font-size:0.875rem;margin-top:0.25rem;">{{ $message }}</p> @enderror
                 </div>
-                @endif
             </div>
-<div style="background:#f9fafb;padding:1rem 1.5rem;display:flex;justify-content:flex-end;gap:0.75rem;border-radius:0 0 1rem 1rem;">
-    <button wire:click="cancel" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">ยกเลิก</button>
-    <button wire:click="proceedToConfirm" style="padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:#dc2626;color:white;border:none;cursor:pointer;">ถัดไป →</button>
-</div>
+            <div style="background:#f9fafb;padding:1rem 1.5rem;display:flex;justify-content:flex-end;gap:0.75rem;border-radius:0 0 1rem 1rem;">
+                <button wire:click="cancel" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">ยกเลิก</button>
+                <button wire:click="proceedToConfirm" style="padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:#dc2626;color:white;border:none;cursor:pointer;">ถัดไป →</button>
+            </div>
         </div>
     </div>
     @endif
@@ -60,13 +67,13 @@
                 </div>
                 @endif
             </div>
-<div style="background:#f9fafb;padding:1rem 1.5rem;display:flex;justify-content:space-between;gap:0.75rem;border-radius:0 0 1rem 1rem;">
-    <button wire:click="backToStep1" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">← ย้อนกลับ</button>
-    <div style="display:flex;gap:0.75rem;">
-        <button wire:click="cancel" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">ยกเลิก</button>
-        <button wire:click="confirmDelete" style="padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:#dc2626;color:white;border:none;cursor:pointer;">ยืนยันการลบ</button>
-    </div>
-</div>
+            <div style="background:#f9fafb;padding:1rem 1.5rem;display:flex;justify-content:space-between;gap:0.75rem;border-radius:0 0 1rem 1rem;">
+                <button wire:click="backToStep1" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">← ย้อนกลับ</button>
+                <div style="display:flex;gap:0.75rem;">
+                    <button wire:click="cancel" style="padding:0.5rem 1rem;border:1px solid #d1d5db;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:white;color:#374151;cursor:pointer;">ยกเลิก</button>
+                    <button wire:click="confirmDelete" style="padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.875rem;font-weight:500;background:#dc2626;color:white;border:none;cursor:pointer;">ยืนยันการลบ</button>
+                </div>
+            </div>
         </div>
     </div>
     @endif
