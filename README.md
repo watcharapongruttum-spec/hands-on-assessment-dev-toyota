@@ -2,7 +2,7 @@
 
 ## Tech Stack
 - Laravel 12 + Filament v4 + Livewire v3 + Tailwind CSS v4
-- MariaDB / MySQL 8.4
+- MariaDB 10.11.16
 - Laravel Reverb (WebSocket Broadcast)
 - Cloudflare Tunnel
 
@@ -18,7 +18,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-สร้าง database ชื่อ `toyota_test` ใน MySQL/MariaDB แล้วตั้งค่าใน `.env`:
+ตั้งค่า Database ใน `.env`
 
 ```env
 DB_CONNECTION=mysql
@@ -32,12 +32,12 @@ DB_PASSWORD=
 จากนั้นรัน:
 
 ```bash
-php artisan migrate --seed
+php artisan migrate
 ```
 
----
+> หาก database `toyota_test` ยังไม่มี Laravel จะถามเพื่อสร้างให้อัตโนมัติ
 
-## รัน Development Server
+## Run Development Server
 
 เปิด 3 terminal แยกกัน:
 
@@ -52,7 +52,17 @@ php artisan reverb:start
 php artisan queue:work
 ```
 
----
+หากใช้ Laragon สามารถเปิดผ่าน:
+
+```text
+http://toyota-test.test
+```
+
+หรือใช้ Laravel development server:
+
+```text
+http://127.0.0.1:8000
+```
 
 ## เข้าใช้งาน
 
