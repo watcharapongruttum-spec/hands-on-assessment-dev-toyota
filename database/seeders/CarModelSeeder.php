@@ -9,307 +9,150 @@ class CarModelSeeder extends Seeder
 {
     public function run(): void
     {
-        $cars = [
-
-            // Toyota
-            [
-                'code' => 'CM-0005',
-                'brand' => 'Toyota',
-                'name' => 'Corolla Altis',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 1100000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0006',
-                'brand' => 'Toyota',
-                'name' => 'Yaris Ativ',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 650000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0007',
-                'brand' => 'Toyota',
-                'name' => 'Hilux Revo',
-                'year' => 2024,
-                'body_type' => 'Pickup',
-                'base_price' => 950000,
-                'is_active' => true,
+        $brands = [
+            'Toyota' => [
+                ['Corolla Altis', 'Sedan', 1100000],
+                ['Yaris Ativ', 'Sedan', 650000],
+                ['Hilux Revo', 'Pickup', 950000],
+                ['Camry', 'Sedan', 1450000],
+                ['Fortuner', 'SUV', 1700000],
+                ['Veloz', 'SUV', 890000],
+                ['Avanza', 'MPV', 820000],
+                ['Supra', 'Coupe', 5200000],
             ],
 
-            // Honda
-            [
-                'code' => 'CM-0008',
-                'brand' => 'Honda',
-                'name' => 'City',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 780000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0009',
-                'brand' => 'Honda',
-                'name' => 'HR-V',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1150000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0010',
-                'brand' => 'Honda',
-                'name' => 'CR-V',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1600000,
-                'is_active' => true,
+            'Honda' => [
+                ['City', 'Sedan', 780000],
+                ['Civic', 'Sedan', 1200000],
+                ['HR-V', 'SUV', 1150000],
+                ['CR-V', 'SUV', 1600000],
+                ['BR-V', 'SUV', 950000],
+                ['Jazz', 'Hatchback', 720000],
+                ['Accord', 'Sedan', 1800000],
             ],
 
-            // Ford
-            [
-                'code' => 'CM-0011',
-                'brand' => 'Ford',
-                'name' => 'Everest',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1750000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0012',
-                'brand' => 'Ford',
-                'name' => 'Mustang',
-                'year' => 2024,
-                'body_type' => 'Coupe',
-                'base_price' => 3600000,
-                'is_active' => true,
+            'Ford' => [
+                ['Everest', 'SUV', 1750000],
+                ['Ranger', 'Pickup', 1050000],
+                ['Mustang', 'Coupe', 3600000],
+                ['Territory', 'SUV', 1250000],
             ],
 
-            // Nissan
-            [
-                'code' => 'CM-0013',
-                'brand' => 'Nissan',
-                'name' => 'Almera',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 620000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0014',
-                'brand' => 'Nissan',
-                'name' => 'Navara',
-                'year' => 2024,
-                'body_type' => 'Pickup',
-                'base_price' => 980000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0015',
-                'brand' => 'Nissan',
-                'name' => 'Terra',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1450000,
-                'is_active' => true,
+            'Nissan' => [
+                ['Almera', 'Sedan', 620000],
+                ['Navara', 'Pickup', 980000],
+                ['Terra', 'SUV', 1450000],
+                ['Kicks', 'SUV', 890000],
+                ['Sylphy', 'Sedan', 950000],
             ],
 
-            // Mazda
-            [
-                'code' => 'CM-0016',
-                'brand' => 'Mazda',
-                'name' => 'Mazda2',
-                'year' => 2024,
-                'body_type' => 'Hatchback',
-                'base_price' => 680000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0017',
-                'brand' => 'Mazda',
-                'name' => 'Mazda3',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 980000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0018',
-                'brand' => 'Mazda',
-                'name' => 'CX-5',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1350000,
-                'is_active' => true,
+            'Mazda' => [
+                ['Mazda2', 'Hatchback', 680000],
+                ['Mazda3', 'Sedan', 980000],
+                ['CX-3', 'SUV', 890000],
+                ['CX-5', 'SUV', 1350000],
+                ['CX-8', 'SUV', 1750000],
             ],
 
-            // Mitsubishi
-            [
-                'code' => 'CM-0019',
-                'brand' => 'Mitsubishi',
-                'name' => 'Attrage',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 590000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0020',
-                'brand' => 'Mitsubishi',
-                'name' => 'Pajero Sport',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1550000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0021',
-                'brand' => 'Mitsubishi',
-                'name' => 'Triton',
-                'year' => 2024,
-                'body_type' => 'Pickup',
-                'base_price' => 890000,
-                'is_active' => true,
+            'Mitsubishi' => [
+                ['Attrage', 'Sedan', 590000],
+                ['Xpander', 'MPV', 890000],
+                ['Pajero Sport', 'SUV', 1550000],
+                ['Triton', 'Pickup', 890000],
             ],
 
-            // Isuzu
-            [
-                'code' => 'CM-0022',
-                'brand' => 'Isuzu',
-                'name' => 'D-Max',
-                'year' => 2024,
-                'body_type' => 'Pickup',
-                'base_price' => 920000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0023',
-                'brand' => 'Isuzu',
-                'name' => 'MU-X',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1500000,
-                'is_active' => true,
+            'Isuzu' => [
+                ['D-Max', 'Pickup', 920000],
+                ['MU-X', 'SUV', 1500000],
             ],
 
-            // BMW
-            [
-                'code' => 'CM-0024',
-                'brand' => 'BMW',
-                'name' => '320i',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 2650000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0025',
-                'brand' => 'BMW',
-                'name' => 'X5',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 4900000,
-                'is_active' => true,
+            'BMW' => [
+                ['320i', 'Sedan', 2650000],
+                ['330e', 'Sedan', 2990000],
+                ['X1', 'SUV', 2400000],
+                ['X5', 'SUV', 4900000],
             ],
 
-            // Mercedes-Benz
-            [
-                'code' => 'CM-0026',
-                'brand' => 'Mercedes-Benz',
-                'name' => 'C-Class',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 2750000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0027',
-                'brand' => 'Mercedes-Benz',
-                'name' => 'GLC',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 3600000,
-                'is_active' => true,
+            'Mercedes-Benz' => [
+                ['C-Class', 'Sedan', 2750000],
+                ['E-Class', 'Sedan', 3500000],
+                ['GLA', 'SUV', 2600000],
+                ['GLC', 'SUV', 3600000],
             ],
 
-            // Audi
-            [
-                'code' => 'CM-0028',
-                'brand' => 'Audi',
-                'name' => 'A4',
-                'year' => 2024,
-                'body_type' => 'Sedan',
-                'base_price' => 2900000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0029',
-                'brand' => 'Audi',
-                'name' => 'Q7',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 5200000,
-                'is_active' => true,
+            'Audi' => [
+                ['A4', 'Sedan', 2900000],
+                ['A6', 'Sedan', 4200000],
+                ['Q5', 'SUV', 3700000],
+                ['Q7', 'SUV', 5200000],
             ],
 
-            // Hyundai
-            [
-                'code' => 'CM-0030',
-                'brand' => 'Hyundai',
-                'name' => 'Creta',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 950000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0031',
-                'brand' => 'Hyundai',
-                'name' => 'Staria',
-                'year' => 2024,
-                'body_type' => 'Van',
-                'base_price' => 1800000,
-                'is_active' => true,
+            'Hyundai' => [
+                ['Creta', 'SUV', 950000],
+                ['Staria', 'Van', 1800000],
+                ['Elantra', 'Sedan', 1200000],
+                ['Tucson', 'SUV', 1650000],
             ],
 
-            // Kia
-            [
-                'code' => 'CM-0032',
-                'brand' => 'Kia',
-                'name' => 'Carnival',
-                'year' => 2024,
-                'body_type' => 'Van',
-                'base_price' => 2200000,
-                'is_active' => true,
-            ],
-            [
-                'code' => 'CM-0033',
-                'brand' => 'Kia',
-                'name' => 'Seltos',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 990000,
-                'is_active' => true,
+            'Kia' => [
+                ['Carnival', 'Van', 2200000],
+                ['Seltos', 'SUV', 990000],
+                ['Sorento', 'SUV', 1890000],
+                ['K3', 'Sedan', 850000],
             ],
 
-            // Subaru
-            [
-                'code' => 'CM-0034',
-                'brand' => 'Subaru',
-                'name' => 'Forester',
-                'year' => 2024,
-                'body_type' => 'SUV',
-                'base_price' => 1450000,
-                'is_active' => true,
+            'Subaru' => [
+                ['Forester', 'SUV', 1450000],
+                ['XV', 'SUV', 1290000],
+                ['WRX', 'Sedan', 2790000],
+            ],
+
+            'Chevrolet' => [
+                ['Captiva', 'SUV', 999000],
+                ['Colorado', 'Pickup', 1050000],
+                ['Trailblazer', 'SUV', 1350000],
+            ],
+
+            'Suzuki' => [
+                ['Swift', 'Hatchback', 650000],
+                ['Ciaz', 'Sedan', 675000],
+                ['Ertiga', 'MPV', 790000],
+                ['XL7', 'SUV', 820000],
             ],
         ];
 
-        foreach ($cars as $car) {
-            CarModel::create($car);
+
+        $allCars = [];
+        foreach ($brands as $brand => $models) {
+            foreach ($models as $model) {
+                for ($year = 2020; $year <= 2024; $year++) {
+                    $priceIncrease = ($year - 2020) * 20000; 
+                    $allCars[] = [
+                        'brand'      => $brand,
+                        'name'       => $model[0],
+                        'year'       => $year,
+                        'body_type'  => $model[1],
+                        'base_price' => $model[2] + $priceIncrease,
+                        'is_active'  => true,
+                    ];
+                }
+            }
+        }
+
+
+        $carsToInsert = array_slice($allCars, 0, 100);
+
+
+        foreach ($carsToInsert as $index => $car) {
+            CarModel::create([
+                'code'       => 'CM-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                'brand'      => $car['brand'],
+                'name'       => $car['name'],
+                'year'       => $car['year'],
+                'body_type'  => $car['body_type'],
+                'base_price' => $car['base_price'],
+                'is_active'  => $car['is_active'],
+            ]);
         }
     }
 }
