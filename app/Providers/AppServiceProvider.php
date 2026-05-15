@@ -27,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_START,
+            fn (): string => auth()->check()
+                ? '<script>window.userId = ' . auth()->id() . ';</script>'
+                : ''
+        );
+
+        FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
             fn (): string => Blade::render(
                 "@livewire('car-model.delete-modal')"

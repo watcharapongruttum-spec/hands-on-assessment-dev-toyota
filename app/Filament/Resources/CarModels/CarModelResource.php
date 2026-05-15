@@ -40,9 +40,20 @@ class CarModelResource extends Resource
                 ->unique(ignoreRecord: true)
                 ->regex('/^CM-\d{4}$/')
                 ->placeholder('CM-0001')
-                ->default(fn() => 'CM-' . str_pad(
-                    (CarModel::withTrashed()->max('id') ?? 0) + 1, 4, '0', STR_PAD_LEFT
-                ))
+
+
+
+                ->default(function () {
+                    return \DB::transaction(function () {
+                        $maxId = \DB::table('car_models')
+                            ->lockForUpdate()
+                            ->max('id') ?? 0;
+                        $nextId = $maxId + 1;
+                        return 'CM-' . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+                    });
+                })
+
+
                 ->validationMessages([
                     'regex' => 'รูปแบบต้องเป็น CM-XXXX (เช่น CM-0001)',
                     'unique' => 'รหัสนี้มีอยู่ในระบบแล้ว',

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\CarModels\Pages;
 
 use App\Filament\Resources\CarModels\CarModelResource;
-use Filament\Actions\DeleteAction;
+use App\Filament\Resources\CarModels\DeleteCarModelAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
@@ -15,7 +15,8 @@ class EditCarModel extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+
+            DeleteCarModelAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),
         ];
